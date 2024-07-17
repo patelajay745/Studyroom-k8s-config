@@ -2,19 +2,23 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   labels:
-    app: chatroom
-  name: chatroom
+    app: studyroom
+    stage: developement
+  name: studyroom
+  namespace: developement
 spec:
   replicas: 2
   selector:
     matchLabels:
-      app: chatroom
-  strategy: {}
+      app: studyroom
   template:
     metadata:
       labels:
-        app: chatroom
+        app: studyroom
     spec:
+      imagePullSecrets:
+        - name: artifact-registry
       containers:
-        - image: us-east1-docker.pkg.dev/personal-project-429201/my-repo/studyroom:ed7c0489
-          name: nginx
+        - image: us-east1-docker.pkg.dev/personal-project-429201/my-repo/studyroom:fd5d7f2a
+          name: studyroom
+          

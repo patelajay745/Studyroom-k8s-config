@@ -1,0 +1,57 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: postgres-deployment
+  namespace: developement
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: postgres
+      stage: developement
+      type: db
+  template:
+    metadata:
+      labels:
+        app: postgres
+        stage: developement
+        type: db
+    spec:
+      containers:
+        - name: postgres
+          image: "postgres:14"
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 5432
+          env:
+            - name: POSTGRES_USER
+              value: "khabdrick"
+            - name: POSTGRES_PASSWORD
+              value: "secure-password"
+            - name: POSTGRES_DB
+              value: "leads"
+          volumeMounts:
+            - mountPath: /var/lib/postgresql/data
+              name: postgresdata
+              subPath: data
+      volumes:
+        - name: postgresdata
+          persistentVolumeClaim:
+            claimName: postgres-pv
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: postgres-service
+  namespace: developement
+spec:
+  type: ClusterIP
+  selector:
+    app: postgres
+    stage: developement
+    type: db
+  ports:
+    - name: postgres
+      port: 5432
+      targetPort: 5432
