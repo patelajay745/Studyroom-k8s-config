@@ -14,29 +14,34 @@ spec:
           command: ["python", "/app/manage.py", "migrate"]
           env:
             - name: DB_USER
-              valueFrom:
-                secretKeyRef:
-                  name: postgres-credentials
-                  key: user
+              value: "ajay"
+              # valueFrom:
+              #   secretKeyRef:
+              #     name: postgres-credentials
+              #     key: user
             - name: DB_USER_PASSWORD
-              valueFrom:
-                secretKeyRef:
-                  name: postgres-credentials
-                  key: password
+              value: "0745"
+              # valueFrom:
+              #   secretKeyRef:
+              #     name: postgres-credentials
+              #     key: password
             - name: DB_NAME
-              valueFrom:
-                configMapKeyRef:
-                  name: app-variables
-                  key: DB_NAME
+              value: "studyroom"
+              # valueFrom:
+              #   configMapKeyRef:
+              #     name: app-variables
+              #     key: DB_NAME
             - name: DB_HOST
-              valueFrom:
-                configMapKeyRef:
-                  name: app-variables
-                  key: DB_HOST
+              value: "postgres-service.developement.svc.cluster.local"
+              # valueFrom:
+              #   configMapKeyRef:
+              #     name: app-variables
+              #     key: DB_HOST
             - name: DB_DB_PORT
-              valueFrom:
-                configMapKeyRef:
-                  name: app-variables
-                  key: DB_PORT
+              value: "5432"
+              # valueFrom:
+              #   configMapKeyRef:
+              #     name: app-variables
+              #     key: DB_PORT
 
       restartPolicy: Never
