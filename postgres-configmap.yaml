@@ -17,7 +17,7 @@ data:
 
   DATABASE: postgres
   DB_ENGINE: "django.db.backends.postgresql"
-  DB_NAME: app
-  DB_USER: postgres
-  DB_HOST: postgres-cluster-ip-service
+
+  DB_NAME: studyroom
+  DB_HOST: postgres-service.developement.svc.cluster.local
   DB_PORT: "5432"

@@ -40,7 +40,7 @@ spec:
               valueFrom:
                 configMapKeyRef:
                   name: app-variables
-                  key: POSTGRES_DB
+                  key: DB_NAME
 
           volumeMounts:
             - mountPath: /var/lib/postgresql/data
