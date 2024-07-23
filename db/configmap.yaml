@@ -6,3 +6,5 @@ data:
   DB_NAME: "studyroom"
   DB_HOST: "postgres-service.developement.svc.cluster.local"
   DB_PORT: "5432"
+
+  SECRET_KEY: "django-insecure-z+wgenw2)l96cgxg)dhp4%81kf@&to^)q4=vujytr8i(5nx0bu"

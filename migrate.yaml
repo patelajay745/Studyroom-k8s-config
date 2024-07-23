@@ -8,6 +8,35 @@ spec:
       imagePullSecrets:
         - name: artifact-registry
       containers:
-        
+        - name: django-job-container
+          image: us-east1-docker.pkg.dev/personal-project-429201/my-repo/studyroom:fd5d7f2a
+          imagePullPolicy: IfNotPresent
+          command: ["python", "/app/manage.py", "migrate"]
+          env:
+            - name: DB_USER
+              valueFrom:
+                secretKeyRef:
+                  name: postgres-credentials
+                  key: user
+            - name: DB_USER_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: postgres-credentials
+                  key: password
+            - name: DB_NAME
+              valueFrom:
+                configMapKeyRef:
+                  name: app-variables
+                  key: DB_NAME
+            - name: DB_HOST
+              valueFrom:
+                configMapKeyRef:
+                  name: app-variables
+                  key: DB_HOST
+            - name: DB_DB_PORT
+              valueFrom:
+                configMapKeyRef:
+                  name: app-variables
+                  key: DB_PORT
 
       restartPolicy: Never
