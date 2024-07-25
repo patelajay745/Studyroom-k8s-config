@@ -2,38 +2,47 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: postgres
-  namespace: developement
+  namespace: studyroom
+  labels:
+    app: studyroom
 spec:
   replicas: 2
   selector:
     matchLabels:
       app: postgres
-      stage: developement
+      stage: development
       type: db
   template:
     metadata:
       labels:
         app: postgres
-        stage: developement
+        stage: development
         type: db
     spec:
       containers:
         - name: postgres
           image: postgres
+          resources:
+            requests:
+              memory: "50Mi"
+              cpu: "30m"
+            limits:
+              memory: "50Mi"
+              cpu: "30m"
           ports:
             - containerPort: 5432
           env:
             - name: POSTGRES_USER
               valueFrom:
                 secretKeyRef:
-                  name: postgres-credentials
-                  key: user
+                  name: app-secret
+                  key: DB_USER
 
             - name: POSTGRES_PASSWORD
               valueFrom:
                 secretKeyRef:
-                  name: postgres-credentials
-                  key: password
+                  name: app-secret
+                  key: DB_USER_PASSWORD
 
             - name: POSTGRES_DB
               valueFrom:
@@ -42,25 +51,25 @@ spec:
                   key: DB_NAME
 
           volumeMounts:
-            - mountPath: /var/lib/postgresql/data
+            - mountPath: /var/lib/postgresql/mydata
               name: postgresdata
-              subPath: data
+              subPath: mydata
       volumes:
         - name: postgresdata
           persistentVolumeClaim:
-            claimName: postgres-pv
+            claimName: db-pv
 
 ---
 apiVersion: v1
 kind: Service
 metadata:
   name: postgres-service
-  namespace: developement
+  namespace: studyroom
 spec:
   type: ClusterIP
   selector:
     app: postgres
-    stage: developement
+    stage: development
     type: db
   ports:
     - name: postgres

@@ -3,20 +3,19 @@ kind: Deployment
 metadata:
   labels:
     app: studyroom
-    stage: developement
   name: studyroom
-  namespace: developement
+  namespace: studyroom
 spec:
   replicas: 2
   selector:
     matchLabels:
       app: studyroom
-      stage: developement
+      stage: development
   template:
     metadata:
       labels:
         app: studyroom
-        stage: developement
+        stage: development
     spec:
       imagePullSecrets:
         - name: artifact-registry
@@ -28,13 +27,13 @@ spec:
             - name: DB_USER
               valueFrom:
                 secretKeyRef:
-                  name: postgres-credentials
-                  key: user
+                  name: app-secret
+                  key: DB_USER
             - name: DB_USER_PASSWORD
               valueFrom:
                 secretKeyRef:
-                  name: postgres-credentials
-                  key: password
+                  name: app-secret
+                  key: DB_USER_PASSWORD
             - name: DB_NAME
               valueFrom:
                 configMapKeyRef:
@@ -54,17 +53,44 @@ spec:
         - image: us-east1-docker.pkg.dev/personal-project-429201/my-repo/studyroom:2da7b5a0
           name: studyroom
           command: ["python", "/app/manage.py", "runserver"]
+          resources:
+            requests:
+              memory: "120Mi"
+              cpu: "50m"
+            limits:
+              memory: "120Mi"
+              cpu: "50m"
           env:
+            - name: SECRET_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: app-secret
+                  key: SECRET_KEY
             - name: DB_USER
               valueFrom:
                 secretKeyRef:
-                  name: postgres-credentials
-                  key: user
+                  name: app-secret
+                  key: DB_USER
             - name: DB_USER_PASSWORD
               valueFrom:
                 secretKeyRef:
-                  name: postgres-credentials
-                  key: password
+                  name: app-secret
+                  key: DB_USER_PASSWORD
+            - name: AWS_ACCESS_KEY_ID
+              valueFrom:
+                secretKeyRef:
+                  name: app-secret
+                  key: AWS_ACCESS_KEY_ID
+            - name: AWS_SECRET_ACCESS_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: app-secret
+                  key: AWS_SECRET_ACCESS_KEY
+            - name: AWS_STORAGE_BUCKET_NAME
+              valueFrom:
+                secretKeyRef:
+                  name: app-secret
+                  key: AWS_STORAGE_BUCKET_NAME
             - name: DB_NAME
               valueFrom:
                 configMapKeyRef:
@@ -75,11 +101,6 @@ spec:
                 configMapKeyRef:
                   name: app-variables
                   key: DB_HOST
-            - name: SECRET_KEY
-              valueFrom:
-                configMapKeyRef:
-                  name: app-variables
-                  key: SECRET_KEY
             - name: DB_DB_PORT
               valueFrom:
                 configMapKeyRef:
@@ -91,12 +112,12 @@ apiVersion: v1
 kind: Service
 metadata:
   name: app-service
-  namespace: developement
+  namespace: studyroom
 spec:
   type: ClusterIP
   selector:
     app: studyroom
-    stage: developement
+    stage: development
   ports:
     - name: app
       port: 8000

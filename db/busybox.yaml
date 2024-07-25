@@ -12,10 +12,10 @@ spec:
       image: busybox
       name: busybox
       volumeMounts:
-        - mountPath: /var/lib/postgresql/data
+        - mountPath: /var/lib/postgresql
           name: postgresdata
           subPath: data
   volumes:
     - name: postgresdata
       persistentVolumeClaim:
-        claimName: postgres-pv
+        claimName: db-pv
