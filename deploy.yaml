@@ -16,5 +16,5 @@ spec:
         app: chatroom
     spec:
       containers:
-        - image: us-east1-docker.pkg.dev/personal-project-429201/my-repo/studyroom:fde54591
+        - image: us-east1-docker.pkg.dev/personal-project-429201/my-repo/studyroom:ed7c0489
           name: nginx
