@@ -1,1 +1,3 @@
 secrets-configmap/gcp-sa-secret-accessor-config.yaml
+my-secret/
+test/
