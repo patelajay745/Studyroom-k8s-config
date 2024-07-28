@@ -21,7 +21,7 @@ spec:
         - name: artifact-registry
       initContainers:
         - name: django-init-container
-          image: us-east1-docker.pkg.dev/personal-project-429201/my-repo/studyroom:71308537
+          image: us-east1-docker.pkg.dev/personal-project-429201/my-repo/studyroom:d77fd603
           command: ["python", "/app/manage.py", "migrate"]
           env:
             - name: DB_USER
@@ -51,7 +51,7 @@ spec:
                   key: DB_PORT
 
         - name: django-init-container-collectstatic
-          image: us-east1-docker.pkg.dev/personal-project-429201/my-repo/studyroom:71308537
+          image: us-east1-docker.pkg.dev/personal-project-429201/my-repo/studyroom:d77fd603
           command: ["python", "/app/manage.py", "collectstatic", "--noinput"]
           env:
             - name: SECRET_KEY
@@ -100,7 +100,7 @@ spec:
             #       name: app-variables
             #       key: DB_PORT
       containers:
-        - image: us-east1-docker.pkg.dev/personal-project-429201/my-repo/studyroom:71308537
+        - image: us-east1-docker.pkg.dev/personal-project-429201/my-repo/studyroom:d77fd603
           name: studyroom
           command: ["python", "/app/manage.py", "runserver", "0.0.0.0:8000"]
           # resources:
