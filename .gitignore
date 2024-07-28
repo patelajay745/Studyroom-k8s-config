@@ -1,3 +1,4 @@
 secrets-configmap/gcp-sa-secret-accessor-config.yaml
 my-secret/
 test/
+gke_gcloud_auth_plugin_cache

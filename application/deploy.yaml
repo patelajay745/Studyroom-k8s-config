@@ -53,6 +53,52 @@ spec:
         - name: django-init-container-collectstatic
           image: us-east1-docker.pkg.dev/personal-project-429201/my-repo/studyroom:71308537
           command: ["python", "/app/manage.py", "collectstatic", "--noinput"]
+          env:
+            - name: SECRET_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: app-secret
+                  key: SECRET_KEY
+            # - name: DB_USER
+            #   valueFrom:
+            #     secretKeyRef:
+            #       name: app-secret
+            #       key: DB_USER
+            # - name: DB_USER_PASSWORD
+            #   valueFrom:
+            #     secretKeyRef:
+            #       name: app-secret
+            #       key: DB_USER_PASSWORD
+            - name: AWS_ACCESS_KEY_ID
+              valueFrom:
+                secretKeyRef:
+                  name: app-secret
+                  key: AWS_ACCESS_KEY_ID
+            - name: AWS_SECRET_ACCESS_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: app-secret
+                  key: AWS_SECRET_ACCESS_KEY
+            - name: AWS_STORAGE_BUCKET_NAME
+              valueFrom:
+                secretKeyRef:
+                  name: app-secret
+                  key: AWS_STORAGE_BUCKET_NAME
+            # - name: DB_NAME
+            #   valueFrom:
+            #     configMapKeyRef:
+            #       name: app-variables
+            #       key: DB_NAME
+            # - name: DB_HOST
+            #   valueFrom:
+            #     configMapKeyRef:
+            #       name: app-variables
+            #       key: DB_HOST
+            # - name: DB_DB_PORT
+            #   valueFrom:
+            #     configMapKeyRef:
+            #       name: app-variables
+            #       key: DB_PORT
       containers:
         - image: us-east1-docker.pkg.dev/personal-project-429201/my-repo/studyroom:71308537
           name: studyroom
