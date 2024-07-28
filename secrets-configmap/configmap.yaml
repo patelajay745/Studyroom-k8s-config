@@ -6,7 +6,7 @@ metadata:
   labels:
     app: studyroom
 data:
-  DB_NAME: "studyroom"
+  DB_NAME: "postgres"
   DB_HOST: "postgres-service.studyroom.svc.cluster.local"
   DB_PORT: "5432"
   USE_S3: "TRUE"

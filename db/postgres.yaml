@@ -6,7 +6,7 @@ metadata:
   labels:
     app: studyroom
 spec:
-  replicas: 2
+  replicas: 5
   selector:
     matchLabels:
       app: postgres
@@ -51,9 +51,9 @@ spec:
                   key: DB_NAME
 
           volumeMounts:
-            - mountPath: /var/lib/postgresql/mydata
+            - mountPath: /var/lib/postgresql/data
               name: postgresdata
-              subPath: mydata
+              subPath: data
       volumes:
         - name: postgresdata
           persistentVolumeClaim:
